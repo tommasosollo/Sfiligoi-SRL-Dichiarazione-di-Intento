@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_inherit_dichiarazione_intento" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.dichiarazione.intento</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Dichiarazioni d'Intento" invisible="supplier_rank == 0">
+                    <field name="dichiarazione_intento_ids">
+                        <list string="Dichiarazioni d'Intento" editable="bottom" decoration-muted="not active">
+                            <field name="code"/>
+                            <field name="reference_year"/>
+                            <field name="declaration_date"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="plafond"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,41 @@
+services:
+  db:
+    image: postgres:15
+    container_name: odoo-test-db
+    environment:
+      POSTGRES_DB: odoo
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo
+    volumes:
+      - odoo-db-data:/var/lib/postgresql/data
+    networks:
+      - odoo-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U odoo"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  odoo:
+    image: odoo:19.0
+    container_name: odoo-test-19
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8069:8069"
+    volumes:
+      - odoo-data:/var/lib/odoo
+      - ./addons:/mnt/extra-addons
+      - ./odoo.conf:/etc/odoo/odoo.conf
+    networks:
+      - odoo-net
+    # Questo comando installa il modulo base nel database 'odoo'
+    command: -d odoo -i base
+
+volumes:
+  odoo-db-data:
+  odoo-data:
+
+networks:
+  odoo-net:

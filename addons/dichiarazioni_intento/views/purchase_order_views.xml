@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_order_form_inherit_dichiarazione_intento" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit.dichiarazione.intento</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='purchase_delivery_invoice']//group" position="inside">
+                <group string="Dichiarazione d'Intento">
+                    <field name="dichiarazione_intento_id" options="{'no_create': True}"/>
+                    <field name="dichiarazione_intento_code" readonly="1" force_save="1"/>
+                    <field name="dichiarazione_intento_date" readonly="1" force_save="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="purchase_order_search_inherit_dichiarazione_intento" model="ir.ui.view">
+        <field name="name">purchase.order.search.inherit.dichiarazione.intento</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group" position="inside">
+                <filter string="Dichiarazione d'Intento" name="group_by_dichiarazione_intento" context="{'group_by': 'dichiarazione_intento_id'}"/>
+            </xpath>
+        </field>
+    </record>
+    
+    <record id="purchase_order_tree_inherit_dichiarazione_intento" model="ir.ui.view">
+        <field name="name">purchase.order.tree.inherit.dichiarazione.intento</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="dichiarazione_intento_id" optional="hide"/>
+            </field>
+        </field>
+    </record>
+</odoo>

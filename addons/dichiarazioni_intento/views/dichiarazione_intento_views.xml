@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_dichiarazione_intento_form" model="ir.ui.view">
+        <field name="name">dichiarazione.intento.form</field>
+        <field name="model">dichiarazione.intento</field>
+        <field name="arch" type="xml">
+            <form string="Dichiarazione d'Intento">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="code" placeholder="Codice Dichiarazione"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="reference_year"/>
+                            <field name="plafond"/>
+                            <field name="total_amount"/>
+                        </group>
+                        <group>
+                            <field name="declaration_date"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                    <notebook>
+                        <page string="Ordini d'Acquisto">
+                            <field name="purchase_order_ids" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_dichiarazione_intento_tree" model="ir.ui.view">
+        <field name="name">dichiarazione.intento.tree</field>
+        <field name="model">dichiarazione.intento</field>
+        <field name="arch" type="xml">
+            <list string="Dichiarazioni d'Intento" decoration-muted="not active">
+                <field name="code"/>
+                <field name="partner_id"/>
+                <field name="reference_year"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="plafond"/>
+                <field name="total_amount"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    
+    <record id="action_dichiarazione_intento" model="ir.actions.act_window">
+        <field name="name">Dichiarazioni d'Intento</field>
+        <field name="res_model">dichiarazione.intento</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_dichiarazione_intento_search"/>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crea la prima dichiarazione d'intento
+            </p>
+        </field>
+    </record>
+
+    <record id="view_dichiarazione_intento_search" model="ir.ui.view">
+        <field name="name">dichiarazione.intento.search</field>
+        <field name="model">dichiarazione.intento</field>
+        <field name="arch" type="xml">
+            <search string="Cerca Dichiarazioni d'Intento">
+                <field name="code"/>
+                <field name="partner_id"/>
+                <field name="reference_year"/>
+                <filter string="Attive" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Non Attive" name="inactive" domain="[('active', '=', False)]"/>
+                <separator/>
+                <filter string="Fornitore" name="group_by_partner" context="{'group_by': 'partner_id'}"/>
+                <filter string="Anno" name="group_by_year" context="{'group_by': 'reference_year'}"/>
+            </search>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_dichiarazione_intento"
+              name="Dichiarazioni d'Intento"
+              parent="purchase.menu_procurement_management"
+              action="action_dichiarazione_intento"
+              sequence="20"/>
+</odoo>
