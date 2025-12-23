@@ -1,7 +1,7 @@
 services:
   db:
     image: postgres:15
-    container_name: odoo-test-db
+    container_name: odoo-sfiligoi-db
     environment:
       POSTGRES_DB: odoo
       POSTGRES_USER: odoo
@@ -18,7 +18,7 @@ services:
 
   odoo:
     image: odoo:19.0
-    container_name: odoo-test-19
+    container_name: odoo-sfiligoi-19
     depends_on:
       db:
         condition: service_healthy
@@ -30,8 +30,7 @@ services:
       - ./odoo.conf:/etc/odoo/odoo.conf
     networks:
       - odoo-net
-    # Questo comando installa il modulo base nel database 'odoo'
-    command: -d odoo -i base
+    command: -d odoo -i base,dichiarazioni_intento
 
 volumes:
   odoo-db-data:

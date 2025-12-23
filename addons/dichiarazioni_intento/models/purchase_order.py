@@ -29,7 +29,7 @@ class PurchaseOrder(models.Model):
         result = super().write(vals)
         for order in self:
             if order.dichiarazione_intento_id:
-                # Se c'è una dichiarazione d'intento, azzerao le tasse su tutte le righe
+                # Se c'è una dichiarazione d'intento, azzera le tasse su tutte le righe
                 for line in order.order_line:
                     line.tax_ids = False
         return result

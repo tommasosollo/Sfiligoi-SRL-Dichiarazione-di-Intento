@@ -28,5 +28,5 @@ Configura le proprietà, le dipendenze e i file di dati del modulo.
     ],
     'license': 'LGPL-3',
     'installable': True,
-    'application': False,
+    'application': True,
 }

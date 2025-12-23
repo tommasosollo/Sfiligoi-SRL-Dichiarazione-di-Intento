@@ -1,3 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_dichiarazione_intento_internal,dichiarazione.intento.internal,model_dichiarazione_intento,base.group_user,1,0,0,0
+access_dichiarazione_intento_internal,dichiarazione.intento.internal,model_dichiarazione_intento,base.group_user,1,1,1,1
 access_dichiarazione_intento_purchase,dichiarazione.intento.purchase,model_dichiarazione_intento,purchase.group_purchase_user,1,1,1,1
