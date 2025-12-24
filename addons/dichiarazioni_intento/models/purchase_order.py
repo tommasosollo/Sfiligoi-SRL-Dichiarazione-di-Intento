@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+from datetime import datetime
 
 class PurchaseOrder(models.Model):
     """
@@ -41,7 +42,8 @@ class PurchaseOrder(models.Model):
         Criteri di ricerca:
         1. Fornitore corrisponde
         2. Dichiarazione attiva
-        Ricerca la prima dichiarazione che corrisponde ai criteri.
+        3. Anno di competenza corrisponde all'anno corrente
+        Ricerca l'ultima dichiarazione per data inizio validità che corrisponde ai criteri.
         """
         if not self.partner_id:
             # Se non c'è un fornitore selezionato, cancella i campi della dichiarazione
@@ -50,14 +52,19 @@ class PurchaseOrder(models.Model):
             self.dichiarazione_intento_date = False
             return
 
+        # Determina l'anno di competenza (anno corrente)
+        current_year = datetime.now().year
+        
         # Costruisce il filtro di ricerca per la dichiarazione valida
         domain = [
             ('partner_id', '=', self.partner_id.id),
             ('active', '=', True),
+            ('reference_year', '=', current_year),
         ]
         
-        # Ricerca la prima dichiarazione che corrisponde ai criteri
-        declaration = self.env['dichiarazione.intento'].search(domain, limit=1)
+        # Ricerca le dichiarazioni che corrispondono ai criteri, ordinate per data_start descending
+        # Prende l'ultima per data inizio validità
+        declaration = self.env['dichiarazione.intento'].search(domain, order='date_start desc', limit=1)
 
         if declaration:
             # Se trovata, la applica all'ordine
