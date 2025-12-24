@@ -11,6 +11,11 @@ class DichiarazioneIntento(models.Model):
     _description = 'Dichiarazione di Intento'
     _rec_name = 'code'
     _order = 'date_start desc, id desc'
+    
+    _code_uniq = models.Constraint(
+        'UNIQUE(code, partner_id)',
+        'Il codice della dichiarazione deve essere univoco per fornitore!'
+    )
 
     # Fornitore a cui è associata la dichiarazione
     partner_id = fields.Many2one(
@@ -32,8 +37,6 @@ class DichiarazioneIntento(models.Model):
     reference_year = fields.Integer(string='Anno di Riferimento', required=True)
     # Importo massimo autorizzato dalla dichiarazione
     plafond = fields.Float(string='Plafond', required=True, digits=(16, 2))
-    # Posizione fiscale da applicare (deve avere tasse a 0%)
-    fiscal_position_id = fields.Many2one('account.fiscal.position', string='Posizione Fiscale', help="Posizione fiscale da applicare agli ordini (es. Non Imponibile)")
     # Stato della dichiarazione (attiva o disattivata)
     active = fields.Boolean(string='Attiva', default=True)
     # Note aggiuntive sulla dichiarazione
@@ -51,8 +54,3 @@ class DichiarazioneIntento(models.Model):
         """
         for declaration in self:
             declaration.total_amount = sum(order.amount_total for order in declaration.purchase_order_ids)
-
-    # Vincolo di unicità: il codice deve essere univoco per coppia (codice, fornitore)
-    _sql_constraints = [
-        ('code_uniq', 'unique (code, partner_id)', 'Il codice della dichiarazione deve essere univoco per fornitore!')
-    ]

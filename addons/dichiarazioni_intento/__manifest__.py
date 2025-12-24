@@ -1,8 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Manifest del modulo per la gestione delle dichiarazioni d'intento.
-Configura le proprietà, le dipendenze e i file di dati del modulo.
-"""
 {
     'name': "Gestione Dichiarazioni d'Intento",
     'summary': "Gestione delle dichiarazioni d'intento fornitori",

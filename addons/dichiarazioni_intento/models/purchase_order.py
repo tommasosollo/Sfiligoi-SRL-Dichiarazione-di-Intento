@@ -64,10 +64,6 @@ class PurchaseOrder(models.Model):
             self.dichiarazione_intento_id = declaration.id
             self.dichiarazione_intento_code = declaration.code
             self.dichiarazione_intento_date = declaration.declaration_date
-            if declaration.fiscal_position_id:
-                # Applica la posizione fiscale della dichiarazione
-                self.fiscal_position_id = declaration.fiscal_position_id
-                self._recompute_taxes()
         else:
             # Se non trovata, cancella i dati della dichiarazione
             self.dichiarazione_intento_id = False
@@ -78,16 +74,12 @@ class PurchaseOrder(models.Model):
     def _onchange_dichiarazione_intento_id(self):
         """
         Metodo che si attiva quando l'utente seleziona manualmente una dichiarazione d'intento.
-        Aggiorna i campi snapshot e applica la posizione fiscale.
+        Aggiorna i campi snapshot.
         """
         if self.dichiarazione_intento_id:
             # Aggiorna i campi snapshot
             self.dichiarazione_intento_code = self.dichiarazione_intento_id.code
             self.dichiarazione_intento_date = self.dichiarazione_intento_id.declaration_date
-            if self.dichiarazione_intento_id.fiscal_position_id:
-                # Applica la posizione fiscale e ricalcola le tasse
-                self.fiscal_position_id = self.dichiarazione_intento_id.fiscal_position_id
-                self._recompute_taxes()
     
     def _recompute_taxes(self):
         """
