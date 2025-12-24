@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="purchase_order_report_inherit_dichiarazione_intento" 
+              inherit_id="purchase.report_purchaseorder_document"
+              name="Purchase Order Report with Dichiarazione Intento">
+        <xpath expr="//table[@class='o_has_total_table table o_main_table table-borderless']" position="after">
+            <t t-if="o.dichiarazione_intento_id">
+                <div class="text-muted small mt-3">
+                    <strong>Dichiarazione di Intento:</strong>
+                    <span t-field="o.dichiarazione_intento_code"/>
+                    <t t-if="o.dichiarazione_intento_date">
+                        - Data:
+                        <span t-field="o.dichiarazione_intento_date" t-options="{'date_only': 'true'}"/>
+                    </t>
+                </div>
+            </t>
+        </xpath>
+    </template>
+</odoo>

@@ -13,6 +13,7 @@ Questo modulo consente di gestire le dichiarazioni d'intento fornitori in Odoo. 
 - **Azzeramento Tasse**: Se un ordine ha una dichiarazione d'intento collegata, le tasse vengono automaticamente azzerate a 0%
 - **Tracciamento Ordini**: Visualizzazione di tutti gli ordini associati a una dichiarazione d'intento e ammontare totale speso
 - **Integrazione Ordini**: Aggiunta dei campi dichiarazione d'intento agli ordini di acquisto con snapshot del codice e data
+- **Visualizzazione Report**: Nei report PDF di purchase order viene visualizzata la dichiarazione d'intento collegata (codice e data)
 
 ## 📊 Modelli Dati
 
