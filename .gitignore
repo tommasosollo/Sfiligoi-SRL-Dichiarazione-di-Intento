@@ -75,6 +75,11 @@ target/
 profile_default/
 ipython_config.py
 
+# Zencoder
+.zencoder/
+.zenflow/
+-p/
+
 # pyenv
 .python-version
 
