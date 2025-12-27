@@ -54,13 +54,14 @@ Quando si seleziona un fornitore in un ordine di acquisto:
 2. I criteri di ricerca sono:
    - **Partner** = fornitore dell'ordine
    - **Attiva** = Sì
-3. Se trovata, la dichiarazione viene applicata automaticamente
+   - **Anno di Riferimento** = anno corrente
+3. Se trovata, la dichiarazione viene applicata automaticamente (viene selezionata l'ultima per data inizio validità)
 4. Le tasse su tutte le righe vengono azzerate a 0%
 
 ### Visualizzazione Ammontare Ordini
 
 Nella scheda della dichiarazione d'intento è possibile visualizzare:
-- **Ammontare Totale Ordini**: Importo totale speso
+- **Ammontare IVA Ordini (simulata)**: Importo simulato dell'IVA al 22% su tutti gli ordini collegati (calcolato come 0.22 × somma dei totali ordini)
 - **Scheda Ordini d'Acquisto**: Elenco completo di tutti gli ordini collegati con dettagli
 
 ## 🔧 Configurazione
@@ -82,10 +83,12 @@ Per visualizzare le dichiarazioni disattivate, usare il filtro **"Non Attive"** 
 
 ## ⚠️ Note Importanti
 
-- Le dichiarazioni d'intento sono filtrate **solo in base al fornitore e allo stato attivo**, indipendentemente dalle date di validità
-- Le date di validità (`date_start`, `date_end`) e l'anno di riferimento sono campi informativi utilizzati per tracciamento e scopi amministrativi, **non** per l'applicazione automatica agli ordini
-- La selezione della dichiarazione avviene **automaticamente** quando si seleziona il fornitore nell'ordine di acquisto
+- Le dichiarazioni d'intento sono filtrate per **fornitore**, **stato attivo**, e **anno di riferimento (anno corrente)**
+- L'anno di riferimento è un criterio di filtro per l'applicazione automatica agli ordini
+- Le date di validità (`date_start`, `date_end`) sono campi informativi utilizzati per tracciamento e scopi amministrativi, **non** per l'applicazione automatica
+- La selezione della dichiarazione avviene **automaticamente** quando si seleziona il fornitore nell'ordine di acquisto, scegliendo l'ultima per data inizio validità
 - Una volta applicata la dichiarazione, le tasse su tutte le righe dell'ordine vengono azzerate a 0%
+- Il campo **Ammontare IVA Ordini (simulata)** calcola l'IVA al 22% sui totali degli ordini collegati, non il semplice importo totale
 
 ## 📁 File Principali
 
