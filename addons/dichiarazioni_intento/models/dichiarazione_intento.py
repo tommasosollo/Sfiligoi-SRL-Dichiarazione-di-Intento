@@ -22,7 +22,7 @@ class DichiarazioneIntento(models.Model):
         'res.partner', 
         string='Fornitore', 
         required=True, 
-        domain=[('supplier_rank', '>', 0)],
+        # domain=[('supplier_rank', '>', 0)],
         help="Seleziona il fornitore per questa dichiarazione"
     )
     # Codice univoco della dichiarazione per fornitore
