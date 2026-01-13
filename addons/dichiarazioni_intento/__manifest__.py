@@ -12,8 +12,8 @@
     'author': "Tommaso Sollo",
     'website': "https://www.tommasosollo.it",
     'category': 'Purchase',
-    'version': '19.0.1.0.0',
-    'depends': ['base', 'purchase'],
+    'version': '19.0.1.0.1',
+    'depends': ['base', 'purchase', 'account'],
     'data': [
         'security/ir.model.access.csv',
         'views/dichiarazione_intento_views.xml',
