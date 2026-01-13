@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+from odoo.exceptions import UserError
+from datetime import datetime
 
 class DichiarazioneIntento(models.Model):
     """
@@ -34,7 +36,7 @@ class DichiarazioneIntento(models.Model):
     # Data fine validità della dichiarazione
     date_end = fields.Date(string='Data Fine Validità', required=True)
     # Anno di riferimento della dichiarazione
-    reference_year = fields.Integer(string='Anno di Riferimento', required=True)
+    reference_year = fields.Integer(string='Anno di Riferimento', required=True, default=lambda self: datetime.now().year)
     # Importo massimo autorizzato dalla dichiarazione
     plafond = fields.Float(string='Plafond', required=True, digits=(16, 2))
     # Stato della dichiarazione (attiva o disattivata)
@@ -62,3 +64,22 @@ class DichiarazioneIntento(models.Model):
         """
         for declaration in self:
             declaration.total_amount = 0.22 * sum(order.amount_total for order in declaration.purchase_order_ids)
+
+    def write(self, vals):
+        res = super(DichiarazioneIntento, self).write(vals)
+        
+        # Se stiamo disattivando (vals contiene 'active': False)
+        if 'active' in vals and not vals['active']:
+            # Inviamo la notifica tramite il BUS di Odoo
+            self.env['bus.bus']._sendone(
+                self.env.user.partner_id,  # Destinatario (l'utente attuale)
+                'simple_notification',     # Tipo di evento ascoltato dal client web
+                {
+                    'type': 'warning',     # 'warning', 'danger', 'info', 'success'
+                    'title': "Promemoria",
+                    'message': "Hai disattivato la dichiarazione. Ricordati di aggiornare la posizione fiscale del fornitore!",
+                    'sticky': True,        # True = Rimane finché non la chiudi con la X
+                }
+            )
+            
+        return res

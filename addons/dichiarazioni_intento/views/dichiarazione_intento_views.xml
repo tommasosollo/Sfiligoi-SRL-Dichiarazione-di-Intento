@@ -32,7 +32,7 @@
                         <group>
                             <field name="partner_id"/>
                             <field name="tax_id"/>
-                            <field name="reference_year"/>
+                            <field name="reference_year" widget="char"/>
                             <field name="plafond"/>
                             <field name="total_amount"/>
                         </group>
@@ -63,7 +63,7 @@
             <list string="Dichiarazioni d'Intento" decoration-muted="not active">
                 <field name="code"/>
                 <field name="partner_id"/>
-                <field name="reference_year"/>
+                <field name="reference_year" widget="char"/>
                 <field name="date_start"/>
                 <field name="date_end"/>
                 <field name="plafond"/>
@@ -78,7 +78,10 @@
         <field name="res_model">dichiarazione.intento</field>
         <field name="view_mode">list,form</field>
         <field name="search_view_id" ref="view_dichiarazione_intento_search"/>
-        <field name="context">{'search_default_active': 1}</field>
+        <field name="context">{
+            'search_default_active': 1,
+            'active_test': False
+        }</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Crea la prima dichiarazione d'intento
