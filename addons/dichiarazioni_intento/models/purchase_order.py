@@ -30,9 +30,18 @@ class PurchaseOrder(models.Model):
         result = super().write(vals)
         for order in self:
             if order.dichiarazione_intento_id:
-                # Se c'è una dichiarazione d'intento, azzera le tasse su tutte le righe
+                # Se c'è una dichiarazione d'intento, applica la tassa 0%
+                tax_id = order.dichiarazione_intento_id.tax_id
+                if not tax_id:
+                    # Fallback: cerca una tassa acquisti allo 0%
+                    tax_id = self.env['account.tax'].search([
+                        ('type_tax_use', '=', 'purchase'),
+                        ('amount', '=', 0),
+                        ('company_id', '=', order.company_id.id)
+                    ], limit=1)
+                
                 for line in order.order_line:
-                    line.tax_ids = False
+                    line.tax_ids = [(6, 0, tax_id.ids)] if tax_id else False
         return result
 
     @api.onchange('partner_id')
@@ -91,13 +100,25 @@ class PurchaseOrder(models.Model):
     def _recompute_taxes(self):
         """
         Ricalcola le tasse su tutte le righe dell'ordine.
-        Se c'è una dichiarazione d'intento, azzera le tasse.
+        Se c'è una dichiarazione d'intento, applica la tassa 0%.
         Altrimenti applica la posizione fiscale dell'ordine.
         """
+        # Determina la tassa 0% da applicare
+        tax_id = False
+        if self.dichiarazione_intento_id:
+            tax_id = self.dichiarazione_intento_id.tax_id
+            if not tax_id:
+                # Fallback: cerca una tassa acquisti allo 0%
+                tax_id = self.env['account.tax'].search([
+                    ('type_tax_use', '=', 'purchase'),
+                    ('amount', '=', 0),
+                    ('company_id', '=', self.company_id.id)
+                ], limit=1)
+
         for line in self.order_line:
             if self.dichiarazione_intento_id:
-                # Con dichiarazione d'intento, le tasse sono azzerate a 0%
-                line.tax_ids = False
+                # Con dichiarazione d'intento, le tasse sono impostate allo 0%
+                line.tax_ids = [(6, 0, tax_id.ids)] if tax_id else False
             elif self.fiscal_position_id and line.product_id:
                 # Altrimenti applica la mappatura della posizione fiscale
                 taxes = line.product_id.supplier_taxes_id
