@@ -54,6 +54,8 @@ class DichiarazioneIntento(models.Model):
     
     # Ammontare IVA degli ordini collegati (calcolato automaticamente)
     total_amount = fields.Float(string='Ammontare IVA Ordini (simulata)', compute='_compute_total_amount', digits=(16, 2))
+    # Totale degli ordini collegati
+    orders_total_amount = fields.Float(string='Totale Ordini', compute='_compute_orders_total_amount', digits=(16, 2))
     # Relazione inversa con gli ordini di acquisto
     purchase_order_ids = fields.One2many('purchase.order', 'dichiarazione_intento_id', string='Ordini d\'Acquisto', readonly=True)
     
@@ -64,6 +66,14 @@ class DichiarazioneIntento(models.Model):
         """
         for declaration in self:
             declaration.total_amount = 0.22 * sum(order.amount_total for order in declaration.purchase_order_ids)
+
+    @api.depends('purchase_order_ids', 'purchase_order_ids.amount_total')
+    def _compute_orders_total_amount(self):
+        """
+        Calcola il totale di tutti gli ordini di acquisto collegati a questa dichiarazione.
+        """
+        for declaration in self:
+            declaration.orders_total_amount = sum(order.amount_total for order in declaration.purchase_order_ids)
 
     def write(self, vals):
         res = super(DichiarazioneIntento, self).write(vals)

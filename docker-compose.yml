@@ -28,9 +28,10 @@ services:
       - odoo-data:/var/lib/odoo
       - ./addons:/mnt/extra-addons
       - ./odoo.conf:/etc/odoo/odoo.conf
+      - ./enterprise:/mnt/enterprise-addons
     networks:
       - odoo-net
-    command: -d odoo -i base,dichiarazioni_intento
+    command: -d odoo -i base,web_enterprise,dichiarazioni_intento
 
 volumes:
   odoo-db-data:

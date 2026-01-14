@@ -1,0 +1,39 @@
+name: Sync Folder to Secondary Repo
+
+on:
+  push:
+    branches: [ main ] # branch da monitorare
+    paths:
+      - 'addons/dichiarazione-intento/**' # Il workflow parte solo se modifichi questa cartella
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Primary Repo
+        uses: actions/checkout@v4
+
+      - name: Push folder to Secondary Repo
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_GITHUB_PAT }}
+        with:
+          # La cartella nella Repo Principale che vuoi copiare
+          source-directory: 'addons/dichiarazione-intento'
+          
+          # Il tuo nome utente GitHub
+          destination-github-username: 'tommasosollo'
+          
+          # Il nome della Repo Secondaria
+          destination-repository-name: 'Odoo'
+          
+          # L'email che apparirà nel commit (usa la tua o una generica)
+          user-email: tommasosollo06@gmail.com
+          
+          # (Opzionale) Dove mettere i file nella Repo Secondaria?
+          # Se vuoi metterli nella root, lascia vuoto o rimuovi questa riga.
+          # Se vuoi metterli in una sottocartella, scrivi il percorso qui.
+          target-directory: 'dichiarazione-intento'
+          
+          # Il branch della Repo Secondaria su cui scrivere
+          target-branch: Dichiarazioni-intento-fornitori
