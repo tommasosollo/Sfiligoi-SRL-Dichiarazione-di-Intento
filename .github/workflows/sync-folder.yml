@@ -22,7 +22,7 @@ jobs:
           source-directory: 'addons/dichiarazioni_intento'
           
           # Il tuo nome utente GitHub
-          destination-github-username: 'tommasosollo'
+          destination-github-username: 'Sfiligoi-Odoo'
           
           # Il nome della Repo Secondaria
           destination-repository-name: 'Odoo'
