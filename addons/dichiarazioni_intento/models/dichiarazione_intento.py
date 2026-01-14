@@ -36,7 +36,7 @@ class DichiarazioneIntento(models.Model):
     # Data fine validità della dichiarazione
     date_end = fields.Date(string='Data Fine Validità', required=True)
     # Anno di riferimento della dichiarazione
-    reference_year = fields.Integer(string='Anno di Riferimento', required=True, default=lambda self: datetime.now().year)
+    reference_year = fields.Integer(string='Anno di Riferimento', required=True, default=lambda self: datetime.now().year, group_operator=None)
     # Importo massimo autorizzato dalla dichiarazione
     plafond = fields.Float(string='Plafond', required=True, digits=(16, 2))
     # Stato della dichiarazione (attiva o disattivata)
@@ -53,27 +53,18 @@ class DichiarazioneIntento(models.Model):
     )
     
     # Ammontare IVA degli ordini collegati (calcolato automaticamente)
-    total_amount = fields.Float(string='Ammontare IVA Ordini (simulata)', compute='_compute_total_amount', digits=(16, 2))
-    # Totale degli ordini collegati
-    orders_total_amount = fields.Float(string='Totale Ordini', compute='_compute_orders_total_amount', digits=(16, 2))
+    total_amount = fields.Float(string='Ammontare IVA Ordini (simulata)', compute='_compute_total_amount', digits=(16, 2), store=True)
     # Relazione inversa con gli ordini di acquisto
     purchase_order_ids = fields.One2many('purchase.order', 'dichiarazione_intento_id', string='Ordini d\'Acquisto', readonly=True)
     
     @api.depends('purchase_order_ids', 'purchase_order_ids.amount_total')
     def _compute_total_amount(self):
         """
-        Calcola l'ammontare totale di tutti gli ordini di acquisto collegati a questa dichiarazione.
+        Calcola l'ammontare totale e l'IVA simulata di tutti gli ordini di acquisto collegati a questa dichiarazione.
         """
         for declaration in self:
-            declaration.total_amount = 0.22 * sum(order.amount_total for order in declaration.purchase_order_ids)
-
-    @api.depends('purchase_order_ids', 'purchase_order_ids.amount_total')
-    def _compute_orders_total_amount(self):
-        """
-        Calcola il totale di tutti gli ordini di acquisto collegati a questa dichiarazione.
-        """
-        for declaration in self:
-            declaration.orders_total_amount = sum(order.amount_total for order in declaration.purchase_order_ids)
+            total = sum(order.amount_total for order in declaration.purchase_order_ids)
+            declaration.total_amount = 0.22 * total
 
     def write(self, vals):
         res = super(DichiarazioneIntento, self).write(vals)
