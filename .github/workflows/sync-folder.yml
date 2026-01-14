@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ] # branch da monitorare
     paths:
-      - 'addons/dichiarazione-intento/**' # Il workflow parte solo se modifichi questa cartella
+      - 'addons/dichiarazioni_intento/**' # Il workflow parte solo se modifichi questa cartella
 
 jobs:
   build:
@@ -19,7 +19,7 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.API_GITHUB_PAT }}
         with:
           # La cartella nella Repo Principale che vuoi copiare
-          source-directory: 'addons/dichiarazione-intento'
+          source-directory: 'addons/dichiarazioni_intento'
           
           # Il tuo nome utente GitHub
           destination-github-username: 'tommasosollo'
@@ -33,7 +33,7 @@ jobs:
           # (Opzionale) Dove mettere i file nella Repo Secondaria?
           # Se vuoi metterli nella root, lascia vuoto o rimuovi questa riga.
           # Se vuoi metterli in una sottocartella, scrivi il percorso qui.
-          target-directory: 'dichiarazione-intento'
+          target-directory: 'dichiarazioni_intento'
           
           # Il branch della Repo Secondaria su cui scrivere
           target-branch: Dichiarazioni-intento-fornitori

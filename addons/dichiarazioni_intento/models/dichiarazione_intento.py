@@ -84,3 +84,4 @@ class DichiarazioneIntento(models.Model):
             )
             
         return res
+    
