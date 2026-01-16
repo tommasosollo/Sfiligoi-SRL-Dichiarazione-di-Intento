@@ -36,7 +36,7 @@ class DichiarazioneIntento(models.Model):
     # Data fine validità della dichiarazione
     date_end = fields.Date(string='Data Fine Validità', required=True)
     # Anno di riferimento della dichiarazione
-    reference_year = fields.Integer(string='Anno di Riferimento', required=True, default=lambda self: datetime.now().year, group_operator=None)
+    reference_year = fields.Integer(string='Anno di Riferimento', required=True, default=lambda self: datetime.now().year, aggregator=None)
     # Importo massimo autorizzato dalla dichiarazione
     plafond = fields.Float(string='Plafond', required=True, digits=(16, 2))
     # Stato della dichiarazione (attiva o disattivata)
