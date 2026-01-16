@@ -37,19 +37,4 @@
         </field>
     </record>
 
-    <template id="purchase_order_report_dichiarazione_intento" inherit_id="purchase.report_purchaseorder_document" name="Purchase Order - Dichiarazione Intento">
-        <xpath expr="//div[@id='total']" position="before">
-            <t t-if="o.dichiarazione_intento_id">
-                <div class="mt-4 mb-3">
-                    <strong class="fs-5" style="color: #212529;">Dichiarazione di Intento:</strong>
-                    <span class="ms-2" style="color: #212529;">
-                        <span t-field="o.dichiarazione_intento_code"/>
-                        <t t-if="o.dichiarazione_intento_date">
-                            del <span t-field="o.dichiarazione_intento_date" t-options="{'date_only': 'true'}"/>
-                        </t>
-                    </span>
-                </div>
-            </t>
-        </xpath>
-    </template>
 </odoo>

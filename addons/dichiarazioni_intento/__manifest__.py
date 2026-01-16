@@ -9,10 +9,10 @@
         - Applicazione automatica su purchase.order
         - Gestione validità e plafond
     """,
-    'author': "Tommaso Sollo",
-    'website': "https://www.tommasosollo.it",
+    'author': "B2T S.R.L.",
+    'website': "https://www.b2t.it",
     'category': 'Purchase',
-    'version': '19.0.1.0.3',
+    'version': '19.0.1.0.5',
     'depends': ['base', 'purchase', 'account'],
     'data': [
         'security/ir.model.access.csv',
@@ -20,6 +20,7 @@
         'views/res_partner_views.xml',
         'views/purchase_order_views.xml',
         'views/menus.xml',
+        'reports/purchase_order_report.xml'
     ],
     'license': 'LGPL-3',
     'installable': True,
