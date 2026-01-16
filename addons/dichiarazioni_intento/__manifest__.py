@@ -12,7 +12,7 @@
     'author': "Tommaso Sollo",
     'website': "https://www.tommasosollo.it",
     'category': 'Purchase',
-    'version': '19.0.1.0.2',
+    'version': '19.0.1.0.3',
     'depends': ['base', 'purchase', 'account'],
     'data': [
         'security/ir.model.access.csv',
