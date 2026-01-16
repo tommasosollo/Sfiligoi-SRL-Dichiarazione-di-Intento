@@ -13,6 +13,12 @@
                         <span t-field="o.dichiarazione_intento_date" t-options="{'date_only': 'true'}"/>
                     </t>
                 </div>
+                <t t-set="fiscal_position" t-value="env['account.fiscal.position'].search([('name', '=', 'Dichiarazione di Intento')], limit=1)"/>
+                <t t-if="fiscal_position and fiscal_position.note">
+                    <div class="mt-3" style="border: 1px solid #ddd; padding: 10px; background-color: #f9f9f9;">
+                        <t t-out="fiscal_position.note"/>
+                    </div>
+                </t>
             </t>
         </xpath>
     </template>

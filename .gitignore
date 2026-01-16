@@ -138,3 +138,6 @@ docker-compose.override.yml
 # Odoo specific
 odoo-db-data/
 odoo-data/
+
+
+.todo

@@ -44,14 +44,6 @@ class DichiarazioneIntento(models.Model):
     # Note aggiuntive sulla dichiarazione
     note = fields.Text(string='Note')
     
-    # Imposta da applicare (0%)
-    tax_id = fields.Many2one(
-        'account.tax', 
-        string='Imposta Esenzione (0%)',
-        domain="[('type_tax_use', '=', 'purchase'), ('amount', '=', 0)]",
-        help="L'imposta allo 0% da applicare agli ordini collegati a questa dichiarazione"
-    )
-    
     # Ammontare IVA degli ordini collegati (calcolato automaticamente)
     total_amount = fields.Float(string='Ammontare IVA Ordini (simulata)', compute='_compute_total_amount', digits=(16, 2), store=True)
     # Relazione inversa con gli ordini di acquisto

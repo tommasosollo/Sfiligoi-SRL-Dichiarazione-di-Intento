@@ -31,14 +31,11 @@ class PurchaseOrder(models.Model):
         for order in self:
             if order.dichiarazione_intento_id:
                 # Se c'è una dichiarazione d'intento, applica la tassa 0%
-                tax_id = order.dichiarazione_intento_id.tax_id
-                if not tax_id:
-                    # Fallback: cerca una tassa acquisti allo 0%
-                    tax_id = self.env['account.tax'].search([
-                        ('type_tax_use', '=', 'purchase'),
-                        ('amount', '=', 0),
-                        ('company_id', '=', order.company_id.id)
-                    ], limit=1)
+                tax_id = self.env['account.tax'].search([
+                    ('type_tax_use', '=', 'purchase'),
+                    ('amount', '=', 0),
+                    ('company_id', '=', order.company_id.id)
+                ], limit=1)
                 
                 for line in order.order_line:
                     line.tax_ids = [(6, 0, tax_id.ids)] if tax_id else False
@@ -106,14 +103,12 @@ class PurchaseOrder(models.Model):
         # Determina la tassa 0% da applicare
         tax_id = False
         if self.dichiarazione_intento_id:
-            tax_id = self.dichiarazione_intento_id.tax_id
-            if not tax_id:
-                # Fallback: cerca una tassa acquisti allo 0%
-                tax_id = self.env['account.tax'].search([
-                    ('type_tax_use', '=', 'purchase'),
-                    ('amount', '=', 0),
-                    ('company_id', '=', self.company_id.id)
-                ], limit=1)
+            # Cerca una tassa acquisti allo 0%
+            tax_id = self.env['account.tax'].search([
+                ('type_tax_use', '=', 'purchase'),
+                ('amount', '=', 0),
+                ('company_id', '=', self.company_id.id)
+            ], limit=1)
 
         for line in self.order_line:
             if self.dichiarazione_intento_id:
